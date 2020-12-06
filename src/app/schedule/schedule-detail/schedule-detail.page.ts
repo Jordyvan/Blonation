@@ -42,8 +42,8 @@ export class ScheduleDetailPage implements OnInit {
   colorToast = 'danger';
 
   // map
-  map: any;
-  @ViewChild('map', {read: ElementRef, static: false}) mapRef: ElementRef;
+  maps: any;
+  @ViewChild('maps', {read: ElementRef, static: false}) mapRef: ElementRef;
   distance: any;
   posNow: any;
   coorPlace: any;
@@ -241,12 +241,12 @@ export class ScheduleDetailPage implements OnInit {
       zoom: 13,
       disableDefaultUI: true
     };
-    this.map = new google.maps.Map(this.mapRef.nativeElement, options);
+    this.maps = new google.maps.Map(this.mapRef.nativeElement, options);
 
     // The marker, positioned at UMN
     const marker = new google.maps.Marker({
       position: pos,
-      map: this.map,
+      map: this.maps,
     });
   }
 

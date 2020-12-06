@@ -18,14 +18,17 @@
         <ion-label position="floating" color="primary">Address</ion-label>
         <ion-input type="text" ngModel name="addressLocation"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label position="floating" color="primary">Coordinate location</ion-label>
-        <ion-input type="text" ngModel name="cordinate"></ion-input>
+      <ion-item style="margin-top: 20px ; font-size: 17px" routerLink="/menu/add-location/map">
+        <ion-label  position="" color="primary">Coordinate location <br>
+          <ion-label style="margin-top: 8px" color="dark" >{{coordinate}}</ion-label>
+        </ion-label>
+
       </ion-item>
     </ion-list>
     <div class="row">
       <div class="column" style="text-align: center">
-        <ion-button class="submit-btn" style="width: 90%" type="submit" shape="round" >Create location</ion-button>
+<!--        <ion-button class="submit-btn" style="width: 50%; margin-top: 20px ;margin-bottom: 15px" (click)="toMap()" shape="round" >Get Coordinate</ion-button>-->
+        <ion-button class="submit-btn" style="width: 90%; margin-top: 20px" type="submit" shape="round" >Create location</ion-button>
       </div>
     </div>
 

@@ -43,7 +43,7 @@ export class SchedulePage implements OnInit {
             this.temp.addressLocation = keyloc.addressLocation;
             this.temp.cordinate = keyloc.cordinate;
             this.temp.nameLocation = keyloc.nameLocation;
-            console.log(this.temp);
+            // console.log(this.temp);
           }
         }
       }

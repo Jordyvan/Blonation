@@ -3,6 +3,8 @@ import {LoactionSrvcService} from '../../services/loaction-srvc.service';
 import {Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 import {ToastController} from '@ionic/angular';
+import {Storage} from '@ionic/storage';
+import {Location} from '../../model/location';
 
 @Component({
   selector: 'app-add-location',
@@ -11,23 +13,50 @@ import {ToastController} from '@ionic/angular';
 })
 export class AddLocationPage implements OnInit {
   // location: any;
+  newLoc: Location;
+  coordinate: '';
   constructor(
       private srvc: LoactionSrvcService,
       private router: Router,
-      private toastController: ToastController) { }
+      private toastController: ToastController,
+      private storage: Storage,
+      ) { }
 
   ngOnInit() {
   }
 
-  onSubmit(form: NgForm){
-    this.srvc.create(form.value).then(res => {
-      console.log(res);
-      this.presentToast();
-      this.router.navigateByUrl('/menu/home-admin');
-    }).catch(error => console.log(error));
+  ionViewWillEnter(){
+    this.storage.get('coordinate')
+        .then( value => {
+          if (value !== null){
+          this.coordinate = value;
+          }
+        });
+  }
 
+  ionViewWillLeave(){
+    this.storage.get('coordinate')
+        .then( value => {
+          if (value !== null){
+            this.storage.remove('coordinate');
+          }
+        });
+  }
+
+  onSubmit(form: NgForm){
+    this.newLoc = {
+      key: '',
+      nameLocation: form.value.nameLocation,
+      addressLocation: form.value.addressLocation,
+      cordinate: this.coordinate
+    };
+    console.log(this.newLoc);
+
+    this.srvc.create(this.newLoc);
     form.reset();
+    this.presentToast();
     this.router.navigateByUrl('/menu/home-admin');
+
   }
 
   async presentToast() {
@@ -37,6 +66,10 @@ export class AddLocationPage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+
+  toMap(){
+    this.router.navigateByUrl('/menu/add-location/map');
   }
 
 }

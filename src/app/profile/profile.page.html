@@ -10,14 +10,42 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col text-center>
-        Welcome to Dashboard!
+      <ion-col>
+          <ion-card *ngFor="let ea of tempUser">
+            <ion-card-header>
+              <ion-card-title>{{ea.nameFull}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content style="color: black">
+              <ion-label>Email: {{ea.email}}</ion-label><br>
+              <ion-label>Address: {{ea.address}}</ion-label><br>
+              <ion-label>Phone Number: {{ea.phone}}</ion-label><br>
+              <ion-label *ngIf="ea.bloodtype === '1'">Blood Type: A</ion-label>
+              <ion-label *ngIf="ea.bloodtype === '2'">Blood Type: AB</ion-label>
+              <ion-label *ngIf="ea.bloodtype === '3'">Blood Type: B</ion-label>
+              <ion-label *ngIf="ea.bloodtype === '4'">Blood Type: O</ion-label>
+              <br><ion-label>Birthdate: {{ea.birthdate | date }}</ion-label><br>
+              <ion-label>Weight and Height: {{ea.weight}} Kg and {{ea.height}} cm</ion-label><br>
+              <ion-label *ngIf="ea.donated === 'false'">Can Donate</ion-label>
+              <ion-label *ngIf="ea.donated === 'true'">Can't Donate</ion-label>
+
+            </ion-card-content>
+          </ion-card>
+
+<!--        <ion-card >-->
+<!--          <ion-card-header>-->
+<!--            <ion-card-title>List of appoinment</ion-card-title>-->
+<!--          </ion-card-header>-->
+<!--          <ion-card-content>-->
+
+
+<!--          </ion-card-content>-->
+<!--        </ion-card>-->
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col text-center>
-        Your Registered EmailID: {{userEmail}}
-      </ion-col>
+<!--      <ion-col text-center>-->
+<!--        Your Registered EmailID: {{userEmail}}-->
+<!--      </ion-col>-->
     </ion-row>
   </ion-grid>
 </ion-content>

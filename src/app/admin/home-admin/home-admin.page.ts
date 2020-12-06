@@ -108,7 +108,7 @@ export class HomeAdminPage implements OnInit {
   }
 
   onFilterUpdate(event: CustomEvent){
-    console.log(event.detail);
+    // console.log(event.detail);
   }
 
 

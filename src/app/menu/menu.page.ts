@@ -89,6 +89,14 @@ export class MenuPage implements OnInit {
       this.getLogin();
       // console.log('test');
     });
+
+    this.auth.userDetails().subscribe(res => {
+      if (res !== null){
+        console.log('uid:', res.uid);
+      }
+    }, err => {
+      console.log(err);
+    });
   }
 
   ngOnInit(){
@@ -123,13 +131,10 @@ export class MenuPage implements OnInit {
   }
 
   logout(){
-    this.auth.logoutUser().then( res => {
-      console.log('res: ', res);
-      this.storage.remove('logged');
-      this.nav.navigateBack('/home');
-    }).catch(error => {
-      console.log(error);
-    });
+    this.auth.logoutUser();
+    console.log('Logout');
+    this.storage.remove('logged');
+    this.nav.navigateBack('/home');
   }
 
 }

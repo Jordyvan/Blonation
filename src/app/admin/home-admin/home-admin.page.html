@@ -57,7 +57,8 @@
 
               <ion-item >
                 <ion-label>
-                  {{ l.nameLocation }}
+                  {{ l.nameLocation }}<br>
+                  <ion-note>{{l.addressLocation}}</ion-note>
                 </ion-label>
               </ion-item>
 
@@ -69,17 +70,11 @@
 
 
               <ion-item>
-                <ion-row>
                   <ion-label>
                     {{ e.nameEvent }} <br>
-                    <ion-note>{{e.nameLocation}}, {{e.dateEvent | date}}</ion-note>
+                    <ion-note>{{e.nameLocation}}</ion-note><br>
+                    <ion-note>{{e.dateEvent | date}}</ion-note>
                   </ion-label>
-                </ion-row>
-                <ion-row>
-
-                </ion-row>
-
-
               </ion-item>
 
               <ion-item-options side="end">
