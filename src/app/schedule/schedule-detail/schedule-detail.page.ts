@@ -64,6 +64,11 @@ export class ScheduleDetailPage implements OnInit {
   }
 
   ngOnInit() {
+
+  }
+
+  ionViewWillEnter(){
+    this.user = {};
     this.auth.userDetails().subscribe(res => {
       if (res !== null){
         this.userid = res.uid;
@@ -138,7 +143,6 @@ export class ScheduleDetailPage implements OnInit {
             this.user = usera;
           }
         }
-        console.log(this.user);
       });
     });
 
@@ -150,8 +154,6 @@ export class ScheduleDetailPage implements OnInit {
       } else if (value === null) {
       }
     });
-
-
   }
 
   apply(){

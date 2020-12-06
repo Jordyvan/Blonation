@@ -121,9 +121,7 @@ export class HomeAdminPage implements OnInit {
     delete tempApplicant.nameUser;
     delete tempApplicant.golonganDarah;
     delete tempApplicant.nameEvent;
-    this.appointmentSrvc.update(tempApplicant.key, tempApplicant).then(res => {
-      console.log(res);
-    }).catch(error => console.log(error));
+    this.appointmentSrvc.update(tempApplicant.key, tempApplicant);
 
     const tempEvent = this.event.find(x => x.key === tempApplicant.idEvent);
     const dateEvent = new Date(tempEvent.dateEvent);
@@ -133,22 +131,50 @@ export class HomeAdminPage implements OnInit {
     tempUser.lastDonateDate = dateEvent;
     console.log(tempUser);
 
-    this.auths.update(tempUser.key, tempUser).then(res => {
-      console.log(res);
-    }).catch(error => console.log(error));
+    this.auths.update(tempUser.key, tempUser);
 
     this.massageToast = 'Appointment has been updated';
     this.colorToast = 'success';
     this.presentToast();
   }
 
-  declineAplicant(slidingItem: IonItemSliding){
+  declineAplicant(slidingItem: IonItemSliding, id: string){
     slidingItem.close();
-    console.log('Not Accpted');
+    // delete appointment
+    const tempApplicant = this.applicant.find(x => x.key === id);
+
+    this.appointmentSrvc.delete(tempApplicant.key);
+
+    const tempUser = this.user.find(x => x.key === tempApplicant.idUser);
+    tempUser.donated = 'false';
+    tempUser.lastDonateDate = '';
+
+    this.auths.update(tempUser.key, tempUser);
+
+    this.massageToast = 'Appointment has been deleted';
+    this.colorToast = 'warning';
+    this.presentToast();
   }
-  hapusEvent(slidingItem: IonItemSliding){
+
+  hapusEvent(slidingItem: IonItemSliding, id: string){
     slidingItem.close();
-    console.log('Not Accpted');
+    const tempEvent = this.event.find(x => x.key === id);
+    const tempApplicant = this.applicant.filter(x => x.idEvent === id);
+    console.log(tempApplicant);
+    for (const applican of tempApplicant){
+      const tempUser = this.user.filter(x => x.key === applican.idUser);
+      for (const us of tempUser){
+        us.donated = 'false';
+        us.lastDonateDate = '';
+        this.auths.update(us.key, us);
+      }
+      this.appointmentSrvc.delete(applican.key);
+    }
+    this.eventSrvc.delete(id);
+
+    this.massageToast = 'Event has been deleted';
+    this.colorToast = 'danger';
+    this.presentToast();
   }
 
   async presentToast() {
