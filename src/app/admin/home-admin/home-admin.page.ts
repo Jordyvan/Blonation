@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {IonItemSliding} from '@ionic/angular';
+import {IonItemSliding, ToastController} from '@ionic/angular';
 import {LoactionSrvcService} from '../../services/loaction-srvc.service';
 import {map} from 'rxjs/operators';
 import {EventSrvcService} from '../../services/event-srvc.service';
@@ -20,12 +20,16 @@ export class HomeAdminPage implements OnInit {
   user: any;
   temp: any;
 
+  massageToast: string;
+  colorToast: string;
+
   type: string;
   constructor(
       private locSrvc: LoactionSrvcService,
       private eventSrvc: EventSrvcService,
       private appointmentSrvc: AppointmentSrvcService,
       private auths: AuthService,
+      private toastController: ToastController,
   ) { }
 
   ngOnInit() {
@@ -79,11 +83,8 @@ export class HomeAdminPage implements OnInit {
             }
           }
           for (const user of this.user) {
-            console.log(user.key);
-            console.log(abc.idUser);
             if (abc.idUser === user.key) {
               this.tempApplicant.nameUser = user.nameFull;
-              // this.tempApplicant.golonganDarah = user.bloodtype;
               if (user.bloodtype === '1') {
                 this.tempApplicant.golonganDarah = 'A';
               }
@@ -96,7 +97,6 @@ export class HomeAdminPage implements OnInit {
               if (user.bloodtype === '4') {
                 this.tempApplicant.golonganDarah = 'O';
               }
-              console.log(this.tempApplicant);
             }
           }
       }
@@ -111,24 +111,53 @@ export class HomeAdminPage implements OnInit {
     console.log(event.detail);
   }
 
-  acc( slidingItem: IonItemSliding){
-    slidingItem.close();
-    console.log('Accepted');
-  }
 
-  decline(slidingItem: IonItemSliding){
+  accAplicant( slidingItem: IonItemSliding , id: string){
     slidingItem.close();
-    console.log('Not Accpted');
-  }
+    // update appointment
+    const tempApplicant = this.applicant.find(x => x.key === id);
 
-  accAplicant( slidingItem: IonItemSliding){
-    slidingItem.close();
-    console.log('Accepted');
+    tempApplicant.status = true;
+    delete tempApplicant.nameUser;
+    delete tempApplicant.golonganDarah;
+    delete tempApplicant.nameEvent;
+    this.appointmentSrvc.update(tempApplicant.key, tempApplicant).then(res => {
+      console.log(res);
+    }).catch(error => console.log(error));
+
+    const tempEvent = this.event.find(x => x.key === tempApplicant.idEvent);
+    const dateEvent = new Date(tempEvent.dateEvent);
+    const dateUser = dateEvent.setDate(dateEvent.getDate() + 30);
+    const tempUser = this.user.find(x => x.key === tempApplicant.idUser);
+    tempUser.donated = 'false';
+    tempUser.lastDonateDate = dateEvent;
+    console.log(tempUser);
+
+    this.auths.update(tempUser.key, tempUser).then(res => {
+      console.log(res);
+    }).catch(error => console.log(error));
+
+    this.massageToast = 'Appointment has been updated';
+    this.colorToast = 'success';
+    this.presentToast();
   }
 
   declineAplicant(slidingItem: IonItemSliding){
     slidingItem.close();
     console.log('Not Accpted');
+  }
+  hapusEvent(slidingItem: IonItemSliding){
+    slidingItem.close();
+    console.log('Not Accpted');
+  }
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: this.massageToast,
+      color: this.colorToast,
+      duration: 2000
+    });
+    toast.present();
   }
 
 }
