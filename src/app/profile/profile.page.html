@@ -26,20 +26,35 @@
               <br><ion-label>Birthdate: {{ea.birthdate | date }}</ion-label><br>
               <ion-label>Weight and Height: {{ea.weight}} Kg and {{ea.height}} cm</ion-label><br>
               <ion-label *ngIf="ea.donated === 'false'">Can Donate</ion-label>
-              <ion-label *ngIf="ea.donated === 'true'">Can't Donate</ion-label>
-
+              <ion-label *ngIf="ea.donated === 'true'">Can't Donate</ion-label><br>
+              <div class="row">
+                <div class="column" style="text-align: center">
+                  <ion-button class="submit-btn" style="width: 80%" type="submit" (click)="toEditProfile()" >Edit Profile</ion-button>
+                </div>
+              </div>
             </ion-card-content>
           </ion-card>
 
-<!--        <ion-card >-->
-<!--          <ion-card-header>-->
-<!--            <ion-card-title>List of appoinment</ion-card-title>-->
-<!--          </ion-card-header>-->
-<!--          <ion-card-content>-->
+        <ion-card >
+          <ion-card-header>
+            <ion-card-title>List of appoinment</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-label [hidden]="isAppoinment">You don't have appointment yet</ion-label>
+            <ion-list *ngFor="let appointment of AppointmentList">
+              <ion-item>
+                <ion-label>
+                  {{ appointment.nameEvent }} <br>
+                  <ion-note>{{appointment.nameLocation}}</ion-note><br>
+                  <ion-note>{{appointment.dateEvent | date}}</ion-note><br>
+                  <ion-note *ngIf="appointment.status === false">Status : Approve?</ion-note>
+                  <ion-note style="color: limegreen" *ngIf="appointment.status === true">Status : Approved</ion-note>
+                </ion-label>
+              </ion-item>
+            </ion-list>
 
-
-<!--          </ion-card-content>-->
-<!--        </ion-card>-->
+          </ion-card-content>
+        </ion-card>
       </ion-col>
     </ion-row>
     <ion-row>

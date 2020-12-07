@@ -26,6 +26,7 @@ export class AddEventPage implements OnInit {
             changes.map(c => ({key: c.payload.key, ...c.payload.val()})))
     ).subscribe( data => {
       this.location = data;
+      console.log(this.location);
     });
 
   }

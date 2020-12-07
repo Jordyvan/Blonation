@@ -45,7 +45,6 @@ export class AddLocationPage implements OnInit {
 
   onSubmit(form: NgForm){
     this.newLoc = {
-      key: '',
       nameLocation: form.value.nameLocation,
       addressLocation: form.value.addressLocation,
       cordinate: this.coordinate
