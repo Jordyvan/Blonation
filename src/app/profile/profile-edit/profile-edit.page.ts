@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../../model/user';
-import {LoadingController, NavController} from '@ionic/angular';
+import {LoadingController, NavController, ToastController} from '@ionic/angular';
 import {AuthService} from '../../services/auth.service';
 import {Storage} from '@ionic/storage';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-edit',
@@ -15,6 +16,10 @@ export class ProfileEditPage implements OnInit {
   errorMessage: string;
   email: any = [];
   newU: User;
+
+  userID: any;
+  user: any;
+  tempUser: any;
 
   validationMessages = {
     email: [
@@ -42,32 +47,16 @@ export class ProfileEditPage implements OnInit {
       private formBuilder: FormBuilder,
       private loading: LoadingController,
       private storage: Storage,
+      private toastController: ToastController,
   ) { }
 
   ngOnInit() {
     this.errorMessage = '';
     this.validationForm = this.formBuilder.group({
-      email: new FormControl('', Validators.compose([
-        Validators.required,
-        Validators.pattern('^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$')
-      ])),
-      password: new FormControl('', Validators.compose([
-        Validators.minLength(5),
-        Validators.required
-      ])),
-      name: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
       address: new FormControl('', Validators.compose([
         Validators.required
       ])),
       phone : new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      blood : new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      birth : new FormControl('2020', Validators.compose([
         Validators.required
       ])),
       weight : new FormControl('', Validators.compose([
@@ -78,40 +67,50 @@ export class ProfileEditPage implements OnInit {
       ])),
 
     });
+
+    // ambil uid
+    this.auth.userUid().subscribe(res => {
+      if (res !== null){
+        this.userID = res.uid;
+      }
+    }, err => {
+      console.log(err);
+    });
+
+    this.auth.getAll().snapshotChanges().pipe(
+        map(changes =>
+            changes.map(c => ({key: c.payload.key, ...c.payload.val()})))
+    ).subscribe( data1 => {
+      this.user = data1;
+      for (const us of this.user){
+        if (us.uid === this.userID){
+          this.tempUser = [].concat(us);
+          console.log(this.tempUser);
+        }
+      }
+    });
   }
 
   tryRegister(value){
-    this.auth.registerUser(value).then( // register Authentication
-        res => {
-          this.errorMessage = '';
-          this.auth.userUid().subscribe(resa => { // realtime database
-            if (resa !== null){
-              // console.log('uid: ', resa.uid);
-              this.newU = {
-                uid: resa.uid,
-                nameFull: value.name,
-                email: value.email,
-                bloodtype: value.blood,
-                birthdate: value.birth,
-                address: value.address,
-                phone: value.phone,
-                height: value.height,
-                weight: value.weight,
-                lastDonateDate: '',
-                donated: 'false',
-              };
-              this.auth.create(this.newU);
-              this.storage.set('logged', 1);
-              this.nav.navigateForward('/menu/home');
-            }
-          });
-        }, err => {
-          console.log(err);
-          this.errorMessage = err.message;
+    console.log(value);
+    this.tempUser[0].address = value.address;
+    this.tempUser[0].phone = value.phone;
+    this.tempUser[0].height = value.height;
+    this.tempUser[0].weight = value.weight;
+    console.log(this.tempUser);
+    this.auth.update(this.tempUser[0].key, this.tempUser[0]);
+    this.presentToast();
+    this.nav.navigateForward('/menu/profile');
 
-        }
-    );
+  }
 
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Profile has been Updated',
+      color: 'success',
+      duration: 2000
+    });
+    toast.present();
   }
 
 }

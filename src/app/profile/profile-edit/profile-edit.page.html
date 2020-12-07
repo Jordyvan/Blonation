@@ -11,34 +11,21 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12" offset-md="2" size-md="8">
-        <form class="form" [formGroup]="validationForm" (ngSubmit)="tryRegister(validationForm.value)">
+        <form class="form" [formGroup]="validationForm" (ngSubmit)="tryRegister(validationForm.value)" *ngFor="let us of tempUser">
           <!--nama-->
           <ion-item>
-            <ion-label position="floating" color="primary">Name</ion-label>
-            <ion-input type="text" formControlName="name"></ion-input>
+            <ion-label position="stacked" color="primary">Name <br>
+            <ion-label style="color: black; font-size: 19px; margin-top: 10px" >{{us.nameFull}}</ion-label>
+            </ion-label>
           </ion-item>
-          <div class="validation-errors" style="color: red; font-size: 14px; margin-left: 15px;">
-            <ng-container *ngFor="let validation of validationMessages.name">
-              <div class="error-message"
-                   *ngIf="validationForm.get('name').hasError(validation.type) && (validationForm.get('name').dirty || validationForm.get('name').touched) ">
-                {{validation.message}}
-              </div>
-            </ng-container>
-          </div>
 
           <!--email-->
           <ion-item>
-            <ion-label position="floating" color="primary">Email</ion-label>
-            <ion-input type="text" formControlName="email"></ion-input>
+            <ion-label position="stacked" color="primary">Email<br>
+              <ion-label style="color: black; font-size: 19px; margin-top: 10px" >{{us.email}}</ion-label>
+            </ion-label>
+
           </ion-item>
-          <div class="validation-errors"  style="color: red; font-size: 14px; margin-left: 15px;">
-            <ng-container *ngFor="let validation of validationMessages.email">
-              <div class="error-message"
-                   *ngIf="validationForm.get('email').hasError(validation.type) && (validationForm.get('email').dirty || validationForm.get('email').touched) ">
-                {{validation.message}}
-              </div>
-            </ng-container>
-          </div>
 
           <!--phone-->
           <ion-item>
@@ -68,22 +55,6 @@
             </ng-container>
           </div>
 
-          <!--tanggal lahir-->
-          <ion-item style="margin-top: 15px">
-            <ion-label color="primary">Birth Date</ion-label>
-            <ion-datetime formControlName="birth" ></ion-datetime>
-          </ion-item>
-
-          <!--golongan darah-->
-          <ion-item style="margin-top: 15px">
-            <ion-label color="primary">Blood Type</ion-label>
-            <ion-select formControlName="blood" interface="action-sheet">
-              <ion-select-option value="1">A</ion-select-option>
-              <ion-select-option value="2">AB</ion-select-option>
-              <ion-select-option value="3">B</ion-select-option>
-              <ion-select-option value="4">O</ion-select-option>
-            </ion-select>
-          </ion-item>
 
           <!--Berat dan tinggi badan-->
           <ion-grid>
@@ -104,18 +75,18 @@
           </ion-grid>
 
           <!--password-->
-          <ion-item>
-            <ion-label position="floating" color="primary">Password</ion-label>
-            <ion-input type="password" formControlName="password" class="form-controll" required></ion-input>
-          </ion-item>
-          <div class="validation-errors"  style="color: red; font-size: 14px; margin-left: 15px;">
-            <ng-container *ngFor="let validation of validationMessages.password">
-              <div class="error-message"
-                   *ngIf="validationForm.get('password').hasError(validation.type) && (validationForm.get('password').dirty || validationForm.get('password').touched) ">
-                {{validation.message}}
-              </div>
-            </ng-container>
-          </div>
+<!--          <ion-item>-->
+<!--            <ion-label position="floating" color="primary">Password</ion-label>-->
+<!--            <ion-input type="password" formControlName="password" class="form-controll" required></ion-input>-->
+<!--          </ion-item>-->
+<!--          <div class="validation-errors"  style="color: red; font-size: 14px; margin-left: 15px;">-->
+<!--            <ng-container *ngFor="let validation of validationMessages.password">-->
+<!--              <div class="error-message"-->
+<!--                   *ngIf="validationForm.get('password').hasError(validation.type) && (validationForm.get('password').dirty || validationForm.get('password').touched) ">-->
+<!--                {{validation.message}}-->
+<!--              </div>-->
+<!--            </ng-container>-->
+<!--          </div>-->
 
 
 
