@@ -18,15 +18,15 @@
             <ion-card-content style="color: black">
               <ion-label>Email: {{ea.email}}</ion-label><br>
               <ion-label>Address: {{ea.address}}</ion-label><br>
-              <ion-label>Phone Number: {{ea.phone}}</ion-label><br>
+              <ion-label>Phone Number: 0{{ea.phone}}</ion-label><br>
               <ion-label *ngIf="ea.bloodtype === '1'">Blood Type: A</ion-label>
               <ion-label *ngIf="ea.bloodtype === '2'">Blood Type: AB</ion-label>
               <ion-label *ngIf="ea.bloodtype === '3'">Blood Type: B</ion-label>
               <ion-label *ngIf="ea.bloodtype === '4'">Blood Type: O</ion-label>
               <br><ion-label>Birthdate: {{ea.birthdate | date }}</ion-label><br>
               <ion-label>Weight and Height: {{ea.weight}} Kg and {{ea.height}} cm</ion-label><br>
-              <ion-label *ngIf="ea.donated === 'false'">Can Donate</ion-label>
-              <ion-label *ngIf="ea.donated === 'true'">Can't Donate</ion-label><br>
+              <ion-label *ngIf="ea.donated === 'false'">Can make appointment</ion-label>
+              <ion-label *ngIf="ea.donated === 'true'">Can't make appointment</ion-label><br>
               <div class="row">
                 <div class="column" style="text-align: center">
                   <ion-button class="submit-btn" style="width: 80%" type="submit" (click)="toEditProfile()" >Edit Profile</ion-button>
