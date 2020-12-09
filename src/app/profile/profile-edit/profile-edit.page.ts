@@ -76,6 +76,9 @@ export class ProfileEditPage implements OnInit {
             name: new FormControl(this.tempUser[0].nameFull, Validators.compose([
               Validators.required
             ])),
+            email: new FormControl(this.tempUser[0].email, Validators.compose([
+              Validators.required
+            ])),
             address: new FormControl(this.tempUser[0].address, Validators.compose([
               Validators.required
             ])),
