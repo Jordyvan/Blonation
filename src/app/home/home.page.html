@@ -3,15 +3,20 @@
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
-    <img src="assets/icon/blonation.png" width="40px" style="display:inline-block" height="40px" slot="end">
+<!--    <img src="assets/icon/blonation.png" width="40px" style="display:inline-block" height="40px" slot="end">-->
+    <ion-icon name="notifications" slot="end" width="40px"></ion-icon>
     <ion-title class="titleicon" >
-      Home
+      Blonation
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content >
-  <div class="ion-justify-content-center">
+  <div *ngIf="logged" [hidden]="!logged" >
+    <h4 style="padding-left: 15px">Hi, <span style="font-weight: bold">{{user.nameFull}}</span></h4>
+    <hr style="border-top: 0.5px solid #5f5f5f; box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;">
+  </div>
+  <div class="ion-justify-content-center" style="margin-top: 150px">
     <div class="ion-text-center">
       <img src="assets/icon/blonation.png">
     </div>
@@ -19,4 +24,11 @@
       <ion-button routerLink="/menu/schedule">Show Schedule</ion-button>
     </div>
   </div>
+
+
 </ion-content>
+<ion-footer>
+  <ion-toolbar class="ion-text-center">
+    <ion-label>Copyright Blonation 2020</ion-label>
+  </ion-toolbar>
+</ion-footer>

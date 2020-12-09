@@ -52,21 +52,6 @@ export class ProfileEditPage implements OnInit {
 
   ngOnInit() {
     this.errorMessage = '';
-    this.validationForm = this.formBuilder.group({
-      address: new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      phone : new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      weight : new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-      height : new FormControl('', Validators.compose([
-        Validators.required
-      ])),
-
-    });
 
     // ambil uid
     this.auth.userUid().subscribe(res => {
@@ -86,6 +71,25 @@ export class ProfileEditPage implements OnInit {
         if (us.uid === this.userID){
           this.tempUser = [].concat(us);
           console.log(this.tempUser);
+
+          this.validationForm = this.formBuilder.group({
+            name: new FormControl(this.tempUser[0].nameFull, Validators.compose([
+              Validators.required
+            ])),
+            address: new FormControl(this.tempUser[0].address, Validators.compose([
+              Validators.required
+            ])),
+            phone : new FormControl(this.tempUser[0].phone, Validators.compose([
+              Validators.required
+            ])),
+            weight : new FormControl(this.tempUser[0].weight, Validators.compose([
+              Validators.required
+            ])),
+            height : new FormControl(this.tempUser[0].height, Validators.compose([
+              Validators.required
+            ])),
+
+          });
         }
       }
     });
@@ -93,6 +97,7 @@ export class ProfileEditPage implements OnInit {
 
   tryRegister(value){
     console.log(value);
+    this.tempUser[0].nameFull = value.name;
     this.tempUser[0].address = value.address;
     this.tempUser[0].phone = value.phone;
     this.tempUser[0].height = value.height;

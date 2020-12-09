@@ -116,13 +116,13 @@ export class HomeAdminPage implements OnInit {
     slidingItem.close();
     // update appointment
     const tempApplicant = this.applicant.find(x => x.key === id);
-
     tempApplicant.status = true;
     delete tempApplicant.nameUser;
     delete tempApplicant.golonganDarah;
     delete tempApplicant.nameEvent;
     this.appointmentSrvc.update(tempApplicant.key, tempApplicant);
 
+    // set user.lastdonateDate menjadi +30 hari dari event
     const tempEvent = this.event.find(x => x.key === tempApplicant.idEvent);
     const dateEvent = new Date(tempEvent.dateEvent);
     const dateUser = dateEvent.setDate(dateEvent.getDate() + 30);
@@ -130,7 +130,7 @@ export class HomeAdminPage implements OnInit {
     tempUser.donated = 'false';
     tempUser.lastDonateDate = dateEvent;
     console.log(tempUser);
-
+    // update ke firabase
     this.auths.update(tempUser.key, tempUser);
 
     this.massageToast = 'Appointment has been updated';
@@ -142,9 +142,9 @@ export class HomeAdminPage implements OnInit {
     slidingItem.close();
     // delete appointment
     const tempApplicant = this.applicant.find(x => x.key === id);
-
     this.appointmentSrvc.delete(tempApplicant.key);
 
+    // update user lastDonatedDate
     const tempUser = this.user.find(x => x.key === tempApplicant.idUser);
     tempUser.donated = 'false';
     tempUser.lastDonateDate = '';

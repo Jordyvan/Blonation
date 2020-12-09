@@ -14,17 +14,24 @@
         <form class="form" [formGroup]="validationForm" (ngSubmit)="tryRegister(validationForm.value)" *ngFor="let us of tempUser">
           <!--nama-->
           <ion-item>
-            <ion-label position="stacked" color="primary">Name <br>
-            <ion-label style="color: black; font-size: 19px; margin-top: 10px" >{{us.nameFull}}</ion-label>
-            </ion-label>
+            <ion-label position="floating" color="primary">Name</ion-label>
+            <ion-input type="text" formControlName="name"></ion-input>
           </ion-item>
+          <div class="validation-errors"   style="color: red; font-size: 14px; margin-left: 15px;">
+            <ng-container *ngFor="let validation of validationMessages.phone">
+              <div class="error-message"
+                   *ngIf="validationForm.get('phone').hasError(validation.type) && (validationForm.get('phone').dirty || validationForm.get('phone').touched) ">
+                {{validation.message}}
+              </div>
+            </ng-container>
+          </div>
 
           <!--email-->
           <ion-item>
             <ion-label position="stacked" color="primary">Email<br>
               <ion-label style="color: black; font-size: 19px; margin-top: 10px" >{{us.email}}</ion-label>
             </ion-label>
-
+            <ion-icon name="lock-closed-outline" slot="end"></ion-icon>
           </ion-item>
 
           <!--phone-->

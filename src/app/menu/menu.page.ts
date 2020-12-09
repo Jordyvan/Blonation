@@ -90,13 +90,7 @@ export class MenuPage implements OnInit {
       // console.log('test');
     });
 
-    this.auth.userDetails().subscribe(res => {
-      if (res !== null){
-        console.log('uid:', res.uid);
-      }
-    }, err => {
-      console.log(err);
-    });
+
   }
 
   ngOnInit(){
